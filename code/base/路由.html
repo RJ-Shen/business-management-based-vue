@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="#login">登陆页面</a>
+    <a href="#register">登陆页面</a>
+    <div id="app"></div>
+    <script>
+        var app = document.getElementById('app')
+        window.onhashchange = function(){
+            console.log(location.hash)
+            switch(location.hash){
+            case '#login':
+                app.innerHTML='<h2>我是登陆页面</h2>'
+                break;
+            case '#register': 
+                app.innerHTML='<h2>我是注册页面</h2>'
+                break;
+            default:
+                break;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <app></app>
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        var App = {
+            template: `<div><parent></parent></div>`
+        }
+        Vue.component('parent',{
+            data(){
+                return {
+                    msg: "我是父组件的数据",
+                    smsg:''
+                }
+            },
+            template: `<div>
+            <p>这个是Parent</p>
+            {{msg}}
+            <child :data='msg' @handleChild='handleChild'></child>
+            </div>`,
+            methods: {
+                handleChild(value) {
+                   this.msg = value
+                }
+            }
+        })
+        Vue.component('child',{
+            data(){
+                return{
+                    sdata: this.data
+                }
+            },
+            props: ['data'],
+            template: `<div><p>这个是Child</p>
+            <input type="text" v-model="sdata" @input="changevalue(sdata)">
+            </div>`,
+            methods: {
+                changevalue(value) {
+                    this.$emit('handleChild',value)
+                }
+            }
+        })
+        new Vue({
+            el:"#app",
+            components: {
+                App
+            }
+        })
+
+    </script>
+</body>
+</html>

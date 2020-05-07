@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <app></app>
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"> </script>
+    <script src="./node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+        //Vue.use(VueRouter);
+
+        var Login = {
+            template: `<div>我是登陆页面</div>`
+        }
+        var Rigister = {
+            template: `<div>我是注册页面</div>`
+        }
+        var UserParams = {
+            template: `<div>我是用户1</div>`,
+            created () {
+                console.log(this.$route.params.id)
+                console.log(this.$router)
+            }
+        }
+        var UserQuery = {
+            template: `<div>我是用户2</div>`,
+            created () {
+                console.log(this.$route.query.userId)
+            }
+        }
+        var Home = {
+            template: `<div>
+                首页内容<br/>
+                <router-link to='/home/song'>歌曲</router-link>
+                <router-link to='/home/movie'>电影</router-link>
+                <router-view></router-view>
+            </div>` 
+        }
+        var Song = {
+            template: `<div>我是Song</div>`
+        }
+        var Movie = {
+            template: `<div>我是Movie</div>`
+        }
+        var App = {
+            template:`
+            <div>
+            <router-link :to="{name:'home'}">首页</router-link>
+            <router-view></router-view>
+            </div>
+            `
+        }
+       // <router-link :to="{name:'userP',params:{id:1}}">用户1页面</router-link>
+       //  <router-link :to="{name:'userQ', query:{userId:2}}">用户2页面</router-link>
+        var router = new VueRouter({
+            routes:[
+                {
+                    path:'/login',
+                    name:'login',
+                    component: Login
+                },
+                {
+                    path:'/rigister',
+                    name:'/rigister',
+                    component: Rigister
+                },
+                {
+                    path:'/user/:id',
+                    name:'userP',
+                    component:UserParams
+                },
+                {
+                    path: '/user',
+                    name: 'userQ',
+                    component: UserQuery
+                },
+                {
+                    path:'/home',
+                    name:'home',
+                    component:Home,
+                    children:[{
+                        path:'song',
+                        component:Song
+                    },{
+                        path:'movie',
+                        component:Movie
+                    }]
+                }
+            ]
+        })
+        new Vue({
+            el: "#app",
+            data () {
+                return {
+                    
+                }
+            },
+            components: {
+                App
+            },
+            router
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <p v-for="child in children" v-if="isFolder">{{child.title}}</p>
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+
+        const app = new Vue({
+            el:"#app",
+            data(){
+                return{
+                    children:[
+                        {title:"foo"},
+                        {title:"bar"}
+                    ]
+                }
+            },
+            computed: {
+                isFolder(){
+                    return this.children && this.children.length > 0
+                }
+            }
+        })
+        console.log(app.$options.render);
+    </script>
+</body>
+</html>

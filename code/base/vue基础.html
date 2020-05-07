@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue基础</title>
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            background-color: aqua;
+        }
+        .isActive{
+            background-color: blueviolet;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <input type="text" v-model="msg"></input>
+        <div class="box" 
+        v-bind:class="{isActive:flag}"
+        @click="handleclick"></div>
+        <app></app>
+    </div>
+    <script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+    var App = {
+        template: `<div>
+               <vheader></vheader>
+               <div>
+                <Vcontent/>
+                <Vaside/>
+               </div>
+             </div>`,
+        components: {
+            Vheader:Vheader,
+            Vaside,
+            Vcontent
+        }
+    }
+    var Vheader = {
+        name: "Vheader",
+        template: `<div>
+               我是头部组件
+             </div>`,
+    }
+    var Vcontent = {
+        name: 'Vcontent',
+        template: `<div>
+               我是头部组件
+             </div>`,
+    }
+    var Vaside = {
+        name: 'Vaside',
+        template: `<div>
+               我是头部组件
+             </div>`,
+    }
+       var vm = new Vue ({
+            el:'#app',
+            data() {
+                return {
+                    msg:"hhhh",
+                    flag:false
+                }
+            },
+           components: {
+               App
+           },
+            methods: {
+                handleclick() {
+                    this.flag = ! this.flag
+                }
+            }
+        })
+    </script>
+</body>
+</html>

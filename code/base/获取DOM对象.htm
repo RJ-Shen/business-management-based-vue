@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('subCom', {
+            template: `
+            <div>我是组件</div>
+            `
+        })
+        var App = {
+            data(){
+                return{
+                    isShow: false
+                }
+            },
+            template:`
+            <div>
+            <input type="text" v-show="isShow" ref="input">
+            <button ref="btn">我是按钮1</button>
+            <button ref="btn">我是按钮2</button>
+            </div>
+            `,
+            mounted () {
+                //console.log(this.$refs.btn)
+                //console.log(this.$refs.ab)
+                this.isShow = true
+                //console.log(this.$refs.input)
+                this.$nextTick(() =>{
+                    this.$refs.input.focus()
+                })
+            }
+        }
+        new Vue({
+            el:"#app",
+            data () {
+                return {
+                    
+                }
+            },
+            template: '<App/>',
+            components: {
+                App
+            }
+        })
+    </script>
+</body>
+</html>

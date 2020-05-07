@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <div id="app">
+       <router-link to="/home">首页</router-link>
+       <router-link to="/blog">博客</router-link>
+       <router-link to="/login">登陆</router-link>
+       <router-view></router-view>
+   </div>
+   <script src="./node_modules/vue-router/dist/vue-router.js"></script> 
+   <script src="./node_modules/vue/dist/vue.js"></script>
+   <script>
+       Vue.use(VueRouter)
+       var Home = {
+           template:`
+           <div>我是首页</div>
+           `
+       }
+       var Blog = {
+           template:`
+           <div>我是Blog</div>
+           `
+       }
+       var Login = {
+           data () {
+               return {
+                   name:'',
+                   password:''
+               }
+           },
+           template:`
+           <div>
+               用户名： <input type="text" v-model='name'></br>
+               密码： <input type="password" v-model='password'></br>
+               <input type="button" value="登陆" @click='handleLoginClick'>
+           </div>
+           `,
+           methods: {
+            handleLoginClick(){
+                localStorage.setItem('user',{name:'this.name',password:'this.password'})
+                this.$router.push('/blog')
+            }
+           }
+       }
+       var router = new VueRouter({
+           routes:[
+               { path: '/', redirect:'/home' },
+               { path: '/home', component: Home },
+               { path: '/blog', component: Blog, meta:{
+                   isUser: true
+               } },
+               { path: '/login', component: Login }
+           ]
+       })
+       new Vue({
+           el:'#app',
+           router
+       })
+       router.beforeEach((to, from, next) => {
+          if(to.meta.isUser){
+                if(localStorage.getItem('user')){
+                    next()
+                }else{
+                    next({
+                        path:'/login'
+                    })
+                }
+          }else{
+              next()
+          }
+           
+       })
+   </script>
+</body>
+</html>

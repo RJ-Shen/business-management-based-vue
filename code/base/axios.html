@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script src="./node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+        var Timeline = {
+            template: `
+                <div> 
+                   我是首页
+                 </div>
+            `,
+            created () {
+                console.log('首页组件创建了')
+            },
+            mounted () {
+                console.log('首页组件DOM加载了')
+            },
+            destroyed () {
+                console.log('首页组件销毁了')
+            }
+        }
+        var Pins = {
+            template: `
+                <div> 我是沸点 </div>
+            `
+        }
+        var  ComDesc = {
+            template: `
+                <div> 我是前端 </div>
+            `,
+            watch: {
+                '$route'(to,from) {
+                    console.log(to)
+                    console.log(from)
+                }
+            }
+        }
+        var router = new VueRouter({
+            routes:[
+                { path: '/timeline', component: Timeline ,
+                children:[
+                    { name:'comDesc', path: '/timeline/:id', component: ComDesc }
+                ]},
+                { path: '/pins', component: Pins }
+                ]
+        })
+        var App = {
+            template:`
+            <div>
+                <router-link to="/timeline">首页</router-link>
+                <router-link to="/pins">沸点</router-link>
+                <router-view></router-view>
+            </div>
+            `
+        }
+        new Vue({
+            el: '#app',
+            router,
+            components: {
+                App,
+            },
+            template:`<app></app>`
+        })
+    </script>
+</body>
+</html>

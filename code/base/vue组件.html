@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .default{
+            height: 40px;
+            line-height: 40px;
+        }
+        .success{
+            background-color: green;
+        }
+        .fail{
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model='textvalue'>
+        <ul>
+            <li v-for="value in obj">{{value}}</li>
+        </ul>
+        <button @click="obj.name='jjjj'">切换</button>
+        <h1>{{textvalue | myfilter}} </h1>
+        <h2>{{textvalue | myreverse}}</h2>
+        <appenter></appenter>
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        var Vheader = {template:'<div>我是header<btn>按钮</btn></div>' }
+        var Vaside = { template:'<div>我是Vaside</div>' }
+        var Vcontent = { template:'<div>我是Vcontent<btn type="success">成功按钮</btn><btn type="fail">失败按钮</btn></div>' }
+        Vue.component('btn',{
+            template:`<button class="default" :class="type">
+            <slot></slot>
+            </button>`,
+            props: ['type']
+        })
+        var appenter = {
+        components: {
+            'v-header': Vheader,
+            'v-aside':Vaside,
+            'v-content':Vcontent
+        },
+        template: `
+        <div>
+            <v-header></v-header>
+            <div>
+            <v-aside></v-aside>
+            <v-content></v-content>
+            </div>
+        </div>
+        `
+        // ...
+        }
+        Vue.filter('myreverse',function (val) { return val.split('').reverse().join("") })
+        new Vue({
+            el:"#app",
+            data(){
+                return {
+                    textvalue:'hhh',
+                    obj:{name:'jary',age:12},
+                    arr: ['name','age']
+                }
+            },
+            components: {
+                'appenter': appenter
+            },
+            watch: {
+              textvalue: function (newval) { 
+                  console.log(newval)
+               },
+              obj: {
+                deep: true,
+                handler: function (newv, oldv) { 
+                console.log(newv);
+               }
+              }
+
+            },
+            filters: {
+                myfilter(val){
+                    return "这是开头"+val
+                }
+            }
+        })
+        
+    </script>
+</body>
+</html>
