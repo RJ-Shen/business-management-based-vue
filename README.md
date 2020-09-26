@@ -1,2 +1,3 @@
-# Simulation-Development-Meituan
-这个项目是我模拟美团网来实现的一个项目。第一次决定做一个全栈的开发，希望自己可以坚持下取。
+# business-management-based-vue
+
+这是一个关于电商后台管理的项目
